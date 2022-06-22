@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_22_160218) do
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "users_id", null: false
+    t.index ["users_id"], name: "index_foods_on_users_id"
   end
 
   create_table "recipe_foods", force: :cascade do |t|
@@ -57,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_22_160218) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "foods", "users", column: "users_id"
   add_foreign_key "recipe_foods", "foods", column: "foods_id"
   add_foreign_key "recipe_foods", "recipes", column: "recipes_id"
   add_foreign_key "recipes", "users", column: "users_id"
