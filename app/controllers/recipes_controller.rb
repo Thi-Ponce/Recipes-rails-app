@@ -24,7 +24,7 @@ class RecipesController < ApplicationController
   def create
     @user = current_user
     @recipe = Recipe.new(recipe_params)
-    @recipe.user = @user
+    @recipe.users = @user
 
     respond_to do |format|
       if @recipe.save

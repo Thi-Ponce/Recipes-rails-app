@@ -1,5 +1,5 @@
 class Recipe < ActiveRecord::Base
-    belongs_to :user, class_name: 'User'
+    belongs_to :users, class_name: 'User'
     has_many :recipe_foods, dependent: :destroy, class_name: 'Recipe-foods'
   
     validates :name, presence: true
