@@ -3,5 +3,5 @@ class Recipe < ActiveRecord::Base
   has_many :recipe_foods, dependent: :destroy
 
   validates :name, presence: true
-  validates :description, presence: true  
+  validates :description, presence: true
 end
