@@ -3,7 +3,7 @@ class ShoppingListController < ApplicationController
     @user = current_user
     @recipes = @user.recipes
     @recipe_food = []
-    @recipes.each do |recipe|
+    @recipes.includes([:recipe_foods]).each do |recipe|
       recipe.recipe_foods.each do |recipe_food|
         @recipe_food.push(recipe_food)
       end
