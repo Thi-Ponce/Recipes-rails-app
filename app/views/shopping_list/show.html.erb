@@ -1,2 +1,19 @@
 <h1><%= @total_items %></h1>
 <h1><%= @total_price %></h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Food</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @recipe_food.each do |food|%>
+  <tr>
+    <td> <%= food.food.name %></td>
+    <td><%= food.quantity %> <%= food.food.measurement_unit %></td>
+    <td><%= food.food.price * food.quantity %></td>
+  </tr>
+  <% end %>
+</table>
