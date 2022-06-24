@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+<div class="container">
+<h1>Recipes</h1>
+
+<div id="recipes">
+ <% if @recipes.empty? %>
+    <h2>You don't have any recipes.</h2>
+  <% else %>
+  <%= render 'recipes/recipe' %>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+    <%= link_to "New Recipe", new_recipe_path%>
+  <% end %>
+</div>
