@@ -11,6 +11,11 @@ class RecipesController < ApplicationController
     end
   end
 
+  def shopping_list
+    @recipes = User.find(params[:user_id]).recipes
+    @foods = Food.all
+  end
+
   # GET /recipes/1 or /recipes/1.json
   def show
     @recipe = Recipe.find_by_id(params[:id])
