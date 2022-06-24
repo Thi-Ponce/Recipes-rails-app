@@ -3,16 +3,27 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    @user = current_user
-    @recipes = @user.recipes
+    @current_user = current_user
+    if @current_user.nil?
+      redirect_to user_session_path, flash: { alert: 'You must be signed in to continue.' }
+    else
+      @recipes = @current_user.recipes
+    end
   end
 
   # GET /recipes/1 or /recipes/1.json
-  def show; end
+  def show
+    @recipe = Recipe.find_by_id(params[:id])
+    @recipe_foods = @recipe&.recipe_foods
+    @recipe = 'No recipes' if @recipe.nil?
+    @current_user = current_user
+  end
 
   # GET /recipes/new
   def new
     @recipe = Recipe.new
+    @foods = Food.all
+    @recipe.recipe_foods.build
   end
 
   # GET /recipes/1/edit
@@ -20,13 +31,11 @@ class RecipesController < ApplicationController
 
   # POST /recipes or /recipes.json
   def create
-    @user = current_user
-    @recipe = Recipe.new(recipe_params)
-    @recipe.users = @user
+    @recipe = Recipe.new(recipe_params.merge(users: current_user))
 
     respond_to do |format|
       if @recipe.save
-        format.html { redirect_to recipes_path, notice: 'Recipe was successfully created.' }
+        format.html { redirect_to recipe_url(@recipe), notice: 'Recipe was successfully created.' }
         format.json { render :show, status: :created, location: @recipe }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -50,13 +59,37 @@ class RecipesController < ApplicationController
 
   # DELETE /recipes/1 or /recipes/1.json
   def destroy
-    @recipe = current_user.recipes.find(params[:id])
-    @recipe.destroy
+    @recipe = Recipe.find_by_id(params[:id])
+    return unless @recipe.users == current_user
 
-    respond_to do |format|
-      format.html { redirect_to recipes_url, notice: 'Recipe was successfully destroyed.' }
-      format.json { head :no_content }
+    if @recipe.destroy
+      respond_to do |format|
+        format.html { redirect_to recipes_url, notice: 'Recipe was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to recipes_url, notice: 'Recipe was not destroyed.' }
+        format.json { head :no_content }
+      end
     end
+  end
+
+  def toogle_public
+    @recipe = set_recipe
+    @recipe.public = !@recipe.public
+    text = 'private'
+    text = 'public' if @recipe.public
+    if @recipe.save
+      flash[:success] = "#{@recipe.name} is now #{text}!"
+    else
+      flash[:fail] = @recipe.public
+    end
+    redirect_to recipe_path(@recipe.id)
+  end
+
+  def public_recipes
+    @recipes = Recipe.where(public: true)
   end
 
   private
