@@ -1,8 +1,8 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Blog app📝
+# Recipe App📝
 
-This is the skeleton for a blog app created as a student in Microverse
+This project is a Ruby on Rails website that you can sign up, log in and out, create foods, recipes and a shopping list that I have done alone.
 
 ## Built With
 
@@ -13,9 +13,9 @@ This is the skeleton for a blog app created as a student in Microverse
 
 To get a local copy up and running follow these simple example steps.
 
-- git clone `https://github.com/Thi-Ponce/blog-app.git`
+- git clone `https://github.com/Thi-Ponce/recipes-rails-app.git`
 
-- change to the directory using `cd blog-app`
+- change to the directory using `recipes-rails-app`
 
 - open with your preffered code editor.
 
@@ -25,7 +25,7 @@ To get a local copy up and running follow these simple example steps.
 
 To run the project,
 
-- Navigate to the root directory of the project `cd blog-app`
+- Navigate to the root directory of the project `cd recipes-rails-app`
 - run `rails s`
 
 ## Authors:
